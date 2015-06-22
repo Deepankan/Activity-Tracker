@@ -1,0 +1,25 @@
+
+<p id="notice"><%= notice %></p>
+<h1>Activity Details</h1>
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td> <strong>Duration in Hours:: </strong> <%= @activity.duration_in_hours%></td>
+      </tr>
+      <tr>
+        <td> <strong>Description: </strong> <%= @activity.description %></td>
+      </tr>
+
+      <tr>
+        <td> -------------------------------------------------------------------------- </td>
+      </tr>
+</table>
+
+<%= link_to 'Edit', edit_activity_path(@activity) %> |
+<%= link_to 'Back', activities_path %>

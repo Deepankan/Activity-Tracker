@@ -1,0 +1,101 @@
+<h1>Social share</h1> <br />
+
+  <% url_fb = "https://www.facebook.com/sharer/sharer.php?u="+ application_details_url
+     url_twitter = "https://twitter.com/home?status="+ application_details_url
+  %>
+   <%= link_to (image_tag("fb.png")),url_fb%> <%= link_to (image_tag("twitter.gif")),url_twitter%><br /><br />
+
+<p id="notice"><%= notice %></p>
+<% unless @is_manager %>
+    Create New Activity:
+    <% if @task.present? %>
+      <%= render "form" %>
+    <% else %> <strong> Task Not Present </strong>    <% end %>
+<% end %>
+
+<div id="list"> <%= render partial: "list", locals: { activities: @activities } %></div>
+<br>
+
+<%= link_to 'Tasks', tasks_path %><br /> <br />
+<%= link_to 'Application Details', application_details_path %><br /> <br />
+
+<% if @is_manager %>
+<%= link_to 'Create Emp', "", id: "show_emp_create" %><br /> <br />
+  <div id="emp_create1">
+    <h2>Sign up EMP </h2>
+    <%= form_for @user, url: users_path do |f| %>
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true %>
+        <label style="display: none;color: #EA394C" id="err_emailname">Email can't be blank</label>
+      </div>
+
+      <div class="field">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "off" %>
+          <label style="display: none;color: #EA394C" id="err_password">Password can't be blank</label>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "off" %>
+          <label style="display: none;color: #EA394C" id="err_con_password">Password can't be blank</label>
+          <label style="display: none;color: #EA394C" id="err_match_password">Password does not match</label>
+      </div>
+        <%= f.hidden_field :role, value: "emp" %>
+      <div class="actions">
+        <%= f.submit "Create EMP" ,id:"create_emp"%>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+<script>
+var formDirty = true;
+$('#user_email,#user_password,#user_password_confirmation').focusout(function(e){
+  if($(this).attr('id') == "user_email"){
+  var email = $('#user_email').val();
+  if (email == ""){
+    $("#err_emailname").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_emailname").hide();
+  }
+}else if($(this).attr('id') == "user_password"){
+  var password = $('#user_password').val();
+  if (password == ""){
+    $("#err_password").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_password").hide();
+  }
+}else if($(this).attr('id') == "user_password_confirmation"){
+  var re_password = $('#user_password_confirmation').val();
+  var password = $('#user_password').val();
+  if (re_password == ""){
+    formDirty = false;
+    $("#err_con_password").show();
+     return false;
+  }else if (password != re_password ){
+    formDirty = false;
+    $("#err_match_password").show();
+     return false;
+  }else{
+    formDirty = true;
+      $("#err_match_password").hide();
+      $("#err_con_password").hide();
+
+  }
+}
+});
+
+$('#create_emp').click(function(){
+  if (formDirty == false) return false;
+});
+
+</script>

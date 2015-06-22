@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+<h1>Task Details</h1>
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @task.present?%>
+      <tr>
+        <td> <strong>  Task Name: </strong> <%= @task_detail.task_name%></td>
+      </tr>
+      <tr>
+        <td> <strong>Start Date: </strong> <%= @task_detail.start_date %></td>
+      </tr>
+      <tr>
+         <td> <strong>End Date: </strong> <%= @task_detail.end_date %></td>
+      </tr>
+      <tr>
+        <td> <strong>Planned Hours: </strong> <%= @task_detail.planned_hours %></td>
+      </tr>
+      <tr>
+         <td> <strong> Status: </strong> <%= @task_detail.status %></td>
+      </tr>
+      <tr>
+        <td> -------------------------------------------------------------------------- </td>
+      </tr>
+      <%else%>
+      No Record Found
+      <%end%>
+  </tbody>
+</table>
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>

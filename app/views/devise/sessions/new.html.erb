@@ -1,0 +1,60 @@
+<h2>Log in</h2>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true %>
+    <label style="display: none;color: #EA394C" id="err_emailname">Email can't be blank</label>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+    <label style="display: none;color: #EA394C" id="err_password">Password can't be blank</label>
+  </div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="field">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+  <% end -%>
+
+  <div class="actions">
+    <%= f.submit "Log in",id:"log_in" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+<script>
+var formDirty = true;
+$('#user_email,#user_password').focusout(function(e){
+  if($(this).attr('id') == "user_email"){
+  var email = $('#user_email').val();
+  if (email == ""){
+    $("#err_emailname").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_emailname").hide();
+  }
+}else if($(this).attr('id') == "user_password"){
+  var password = $('#user_password').val();
+  if (password == ""){
+    $("#err_password").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_password").hide();
+  }
+}
+});
+
+$('#log_in').click(function(){
+  if (formDirty == false) return false;
+});
+
+</script>

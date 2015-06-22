@@ -1,0 +1,56 @@
+<%= form_for(@task) do |f| %>
+  Task Name: <%= f.text_field :task_name %> <label style="display: none;color: #EA394C" id="err_taskName">Task Name can't be blank</label> <br /> <br />
+  Start Date: <%= f.date_select :start_date, :order => [:day, :month, :year] %>  <br /> <br />
+  End Date: <%= f.date_select :end_date, :order => [:day, :month, :year] %> <br /> <br />
+  Planned Hours: <%= f.text_field :planned_hours %><label style="display: none;color: #EA394C" id="err_plannedHours">Planned Hours can't be blank</label> <br /> <br />
+  <!-- Status: < %= f.text_field :status, value: task_status, readonly: true %> <br /> <br /> -->
+  Status: <%= f.select :status, options_for_select(@task_status) %> <br /> <br />
+  Assign To: <%= f.select :user_id, options_from_collection_for_select(@emp_users, "id", "email") %> <br /> <br />
+
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div id="newtask"class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<script>
+var formDirty = true;
+$('#task_task_name,#task_planned_hours').focusout(function(e){
+  if($(this).attr('id') == "task_task_name"){
+  var taskName = $('#task_task_name').val();
+  if (taskName == ""){
+    $("#err_taskName").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_taskName").hide();
+  }
+}else if($(this).attr('id') == "task_planned_hours"){
+  var plannedHours = $('#task_planned_hours').val();
+  if (plannedHours == ""){
+    $("#err_plannedHours").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_plannedHours").hide();
+  }
+}
+});
+
+$('#new_task').click(function(){
+  if (formDirty == false) return false;
+});
+
+</script>

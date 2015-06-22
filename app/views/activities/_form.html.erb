@@ -1,0 +1,39 @@
+<%= form_for(@activity, remote: true) do |f| %>
+  <% if @task.present? %>  Task: <%= f.select :task_id, options_from_collection_for_select(@task, "id", "task_name") %> <br /> <br />  <% end %>
+    Description: <%= f.text_field :description %><label style="display: none;color: #EA394C" id="err_description">Description can't be blank</label> <br /> <br />
+    Duration Hours: <%= f.text_field :duration_in_hours %><label style="display: none;color: #EA394C" id="err_duration">Duration in Hours can't be blank</label> <br /> <br />
+    <div id="create_activity" class="actions">
+      <%= f.submit %>
+    </div>
+<% end %>
+<script>
+var formDirty = true;
+$('#activity_description,#activity_duration_in_hours').focusout(function(e){
+  if($(this).attr('id') == "activity_description"){
+  var activitDescription = $('#activity_description').val();
+  if (activitDescription == ""){
+    $("#err_description").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_description").hide();
+  }
+}else if($(this).attr('id') == "activity_duration_in_hours"){
+  var activityDurationHours = $('#activity_duration_in_hours').val();
+  if (activityDurationHours == ""){
+    $("#err_duration").show();
+    formDirty = false;
+     return false;
+  }else{
+    formDirty = true;
+    $("#err_duration").hide();
+  }
+}
+});
+
+$('#create_activity').click(function(){
+  if (formDirty == false) return false;
+});
+
+</script>
